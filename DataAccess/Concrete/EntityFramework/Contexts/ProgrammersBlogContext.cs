@@ -1,4 +1,5 @@
-﻿using Entities.Concretes;
+﻿using DataAccess.Concrete.EntityFramework.Mappings;
+using Entities.Concretes;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,16 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ProgrammersBlog;Trusted_Connection=true;MultipleActiveResultSets=True;");
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ProgrammersBlog;
+            Trusted_Connection=true;MultipleActiveResultSets=True;");
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new ArticleMap());
+            modelBuilder.ApplyConfiguration(new CategoryMap());
+            modelBuilder.ApplyConfiguration(new CommentMap());
+            modelBuilder.ApplyConfiguration(new RoleMap());
+            modelBuilder.ApplyConfiguration(new UserMap());
         }
     }
 }
