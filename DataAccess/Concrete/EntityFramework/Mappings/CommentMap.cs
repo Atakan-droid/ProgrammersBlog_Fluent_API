@@ -29,6 +29,48 @@ namespace DataAccess.Concrete.EntityFramework.Mappings
             builder.Property(c => c.IsDeleted).IsRequired();
             builder.Property(c => c.Note).HasMaxLength(1000);
             builder.ToTable("Comments");
+
+            builder.HasData(
+                new Comment
+                {
+                    Id=1,
+                    ArticleId=1,
+                    Text="Lorem ipsum Comment",
+                    IsActive = true,
+                    IsDeleted = false,
+                    CreatedByName = "InitialCreate",
+                    CreatedDate = DateTime.Now,
+                    ModifiedByName = "InitialCreate",
+                    ModifiedDate = DateTime.Now,
+                    Note = "C # Makale Yorumudur",
+                },
+                 new Comment
+                 {
+                     Id = 2,
+                     ArticleId = 2,
+                     Text = "Lorem Java ipsum Comment",
+                     IsActive = true,
+                     IsDeleted = false,
+                     CreatedByName = "InitialCreate",
+                     CreatedDate = DateTime.Now,
+                     ModifiedByName = "InitialCreate",
+                     ModifiedDate = DateTime.Now,
+                     Note = "Java Makale Yorumudur",
+                 },
+                  new Comment
+                  {
+                      Id = 3,
+                      ArticleId = 3,
+                      Text = "Lorem C++ ipsum Comment",
+                      IsActive = true,
+                      IsDeleted = false,
+                      CreatedByName = "InitialCreate",
+                      CreatedDate = DateTime.Now,
+                      ModifiedByName = "InitialCreate",
+                      ModifiedDate = DateTime.Now,
+                      Note = "C ++ Makale Yorumudur",
+                  }
+                );
         }
     }
 }
