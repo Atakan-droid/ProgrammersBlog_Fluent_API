@@ -19,7 +19,8 @@ namespace Core.DataAccess.Concrete.EntityFramework
         }
         public async Task AddAsync(T entity)
         {
-          await _context.Set<T>().AddAsync(entity);
+           //await _context.Set<T>().AddAsync(entity); 
+            await Task.Run(() => { _context.Set<T>().AddAsync(entity); });
         }
 
         public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate)

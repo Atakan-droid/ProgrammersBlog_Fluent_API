@@ -13,8 +13,8 @@ namespace Entities.Concretes
         public string Content { get; set; }
         public string Thumnail { get; set; }
         public DateTime Date { get; set; }
-        public int ViewsCount { get; set; }
-        public int CommentCount { get; set; }
+        public int ViewsCount { get; set; } = 0;
+        public int CommentCount { get; set; } = 0;
         public string SeaAuthor { get; set; }
         public string SeoDescription { get; set; }
         public string SeoTags { get; set; }
