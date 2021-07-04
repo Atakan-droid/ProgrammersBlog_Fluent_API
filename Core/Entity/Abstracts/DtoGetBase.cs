@@ -10,5 +10,6 @@ namespace Core.Entity.Abstracts
     public abstract class DtoGetBase
     {
         public virtual ResultStatus ResultStatus { get; set; }
+       
     }
 }
