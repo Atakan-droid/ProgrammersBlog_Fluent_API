@@ -16,8 +16,8 @@ namespace Business.Abstract
         Task<IDataResult<CategoryListDto>> GetAllByNonDeleted();
 
         Task<IDataResult<CategoryListDto>> GetAllByNonDeletedAndActive();
-        Task<IResult> Add(CategoryAddDto categoryAddDto,string createdByName); //data transfer object
-        Task<IResult> Update(CategoryUpdateDto categoryUpdateDto,string modifiedByName);
+        Task<IDataResult<CategoryDto>> Add(CategoryAddDto categoryAddDto,string createdByName); //data transfer object
+        Task<IDataResult<CategoryDto>> Update(CategoryUpdateDto categoryUpdateDto,string modifiedByName);
         Task<IResult> Delete(int categoryId,string modifiedByName); //isActive =false
         Task<IResult> HardDelete(int categoryId); // delete from database
     }

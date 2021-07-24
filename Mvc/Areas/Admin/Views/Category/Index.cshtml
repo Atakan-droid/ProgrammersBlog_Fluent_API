@@ -1,10 +1,12 @@
-﻿@model Core.Utilities.Results.Abstract.IDataResult<Entities.Dtos.CategoryListDto>
+﻿@using Core.Utilities.Results.Complex_Types
+@model Entities.Dtos.CategoryListDto
 @{
     Layout = "_Layout";
     ViewBag.Title = "Kategoriler Index";
 }
-@if (Model.ResultStatus == Core.Utilities.Results.Complex_Types.ResultStatus.Success)
+@if (Model.ResultStatus == ResultStatus.Success)
 {
+    <div id="modalPlaceHolder" aria-hidden="true"></div>
     <div class="card mb-4 mt-2">
         <div class="card-header">
             <i class="fas fa-table mr-1"></i>
@@ -42,7 +44,7 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                       @foreach (var item in Model.Data.Categories)
+                       @foreach (var item in Model.Categories)
 	{
                         <tr>
                             <td>@item.Id</td>
@@ -63,7 +65,7 @@
         </div>
     </div>
 }
-@if (Model.ResultStatus == Core.Utilities.Results.Complex_Types.ResultStatus.Error) { 
+@if (Model.ResultStatus == ResultStatus.Error) { 
 
     <div class="alert alert-danger mt-2">
         @Model.Message <br />
@@ -75,22 +77,25 @@
         $(document).ready(function () {
             $(`#categoriesTable`).DataTable({
                 dom: 
-    "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
+                    "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
                     "<'row'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-5'i><'col-sm-7'p>>",
                 buttons: [
                     {
                         text: 'Ekle',
+                        attr: {
+                            id:"btnAdd",
+                        },
                         className:'btn btn-success',
                         action: function (e, dt, node, config) {
-                            alert('Ekle butotnuna basıldı.');
+                           
                         }
                     },
                     {
                         text: 'Yenile',
                         className:'btn btn-warning',
                         action: function (e, dt, node, config) {
-                            alert('Yenile butonuna basıldı.');
+                           
                         }
                     }
                 ],
@@ -282,8 +287,19 @@
                             "title": "Kayıtları sil"
                         }
                     }
-                } 
+                } ,
             });
+            @*DataTable ends here*@
+            $(function () {
+                const url = '@Url.Action("Add","Category")';
+                const placeHolderDiv = $('#modalPlaceHolder');
+                $('#btnAdd').click(function () {
+                    $.get(url).done(function (data) {
+                        placeHolderDiv.html(data);
+                        placeHolderDiv.find(".modal").modal('show');
+                    });
+                });
+            })
         });
         </script>
 }
