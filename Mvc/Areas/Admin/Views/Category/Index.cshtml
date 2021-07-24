@@ -13,6 +13,11 @@
             Kategoriler
         </div>
         <div class="card-body">
+
+            <div class="spinner-border" role="status" style="display:none;">
+                <span class="sr-only">Yükleniyor...</span>
+            </div>
+
             <div class="table-responsive">
                 <table class="table table-bordered" id="categoriesTable" width="100%" cellspacing="0">
                     <thead>
@@ -27,6 +32,7 @@
                             <th>Oluşturan Kullanıcı</th>
                             <th>Son Düzünelenme Tarihi</th>
                             <th>Son Düzenleyen Kullanıcı Adı</th>
+                            <th>İşlemler</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -41,24 +47,30 @@
                             <th>Oluşturan Kullanıcı</th>
                             <th>Son Düzünelenme Tarihi</th>
                             <th>Son Düzenleyen Kullanıcı Adı</th>
+                            <th>İşlemler</th>
                         </tr>
                     </tfoot>
+
                     <tbody>
-                       @foreach (var item in Model.Categories)
-	{
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>@item.Name</td>
-                            <td>@item.Description</td>
-                            <td>@item.IsActive</td>
-                            <td>@item.IsDeleted</td>
-                            <td>@item.Note</td>
-                            <td>@item.CreatedDate.ToShortDateString()</td>
-                            <td>@item.CreatedByName</td>
-                            <td>@item.ModifiedDate.ToShortDateString()</td>
-                            <td>@item.ModifiedByName</td>
-                        </tr>
-	}
+                        @foreach (var item in Model.Categories)
+                        {
+                            <tr name="row@item.Id">
+                                <td>@item.Id</td>
+                                <td>@item.Name</td>
+                                <td>@item.Description</td>
+                                <td>@item.IsActive</td>
+                                <td>@item.IsDeleted</td>
+                                <td>@item.Note</td>
+                                <td>@item.CreatedDate.ToShortDateString()</td>
+                                <td>@item.CreatedByName</td>
+                                <td>@item.ModifiedDate.ToShortDateString()</td>
+                                <td>@item.ModifiedByName</td>
+                                <td>
+                                    <button class="btn btn-primary"> <span class="fas fa-edit"></span>Düzenle</button>
+                                    <button class="btn btn-danger btn-delete" data-id="@item.Id"> <span class="fas fa-minus-circle"></span> Sil</button>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
@@ -95,7 +107,49 @@
                         text: 'Yenile',
                         className:'btn btn-warning',
                         action: function (e, dt, node, config) {
+                            $.ajax({
+                                type: 'GET',
+                                url: '@Url.Action("GetAllCategories","Category")',
+                                contentType: "application/json",
+                                beforeSend: function () {
+                                    $('#categoriesTable').hide();
+                                    $('.spinner-border').show();
+                                },
+                                success: function (data) {
+                                    const categoryListDto = jQuery.parseJSON(data);
+                                    if (categoryListDto.ResultStatus === 0) {
+                                        let tableBody = "";
+                                        $.each(categoryListDto.Categories.$values,
+                                            function (index, category) {
+                                                tableBody += `
+                                                 <tr>
+                                                <td>${category.Id}</td>
+                                                <td>${category.Name}</td>
+                                                <td>${category.Description}</td>
+                                                <td>${convertFirstLetterToUpperCase(category.IsActive.toString())}</td>
+                                                <td>${convertFirstLetterToUpperCase(category.IsDeleted.toString())}</td>
+                                                <td>${category.Note}</td>
+                                                <td>${convertToShortDate(category.CreatedDate)}</td>
+                                                <td>${category.CreatedByName}</td>
+                                                <td>${convertToShortDate(category.ModifieddDate)}</td>
+                                                <td>${category.ModifiedByName}</td>
+                                                </tr>
+                                                `;
+                                            });
+                                        $('#categoriesTable > tbody').replaceWith(tableBody);
+                                        $('.spinner-border').hide();
+                                        $('#categoriesTable').fadeIn(1400);
 
+                                    }
+                                    else {
+                                        toastr.error(`${categoryListDto.Message}`, 'İşlem Başarısız !');
+                                    }
+                                },
+                                error: function (err) {
+                                    console.log(err);
+                                    toastr.error(`${err}`, 'İşlem Başarısız !')
+                                }
+                            })
                         }
                     }
                 ],
@@ -222,7 +276,7 @@
                         "logicAnd": "ve",
                         "logicOr": "veya",
                         "rightTitle": "Kriteri içeri al",
-                        "title": {
+                  "title": {
                             "0": "Arama Oluşturucu",
                             "_": "Arama Oluşturucu (%d)"
                         },
@@ -290,6 +344,7 @@
                 } ,
             });
             @*DataTable ends here*@
+            @*Ajax Get , _CategoryAddAjaxModal comes here*@
             $(function () {
                 const url = '@Url.Action("Add","Category")';
                 const placeHolderDiv = $('#modalPlaceHolder');
@@ -301,15 +356,13 @@
                     placeHolderDiv.on('click', '#btnSave',
                         function (event) {
                             event.preventDefault(); //we prevent button's action in modal
-                            const form = $('#form-category-add');
-                            const actionUrl = form.attr('action');
-                            const dataToSend = form.serialize();
+                            const form = $('#form-category-add'); //form selected
+                            const actionUrl = form.attr('action'); //asp-action selected
+                            const dataToSend = form.serialize(); //taking data from form, form serialized
                             $.post(actionUrl, dataToSend).done(function (data) {
-                                console.log(data);
                                 const categoryAddAjaxModel = jQuery.parseJSON(data);
-                                console.log(categoryAddAjaxModel);
                                 const newFormBody = $('.modal-body', categoryAddAjaxModel.CategoryAddPartial);
-                                placeHolderDiv.find('.modal-body').replaceWith(newFormBody);
+                                placeHolderDiv.find('.modal-body').replaceWith(newFormBody); //if lack of data appears that comes out
                                 const isValid = newFormBody.find('[name="IsValid"]').val() === 'True';
                                 if (isValid) {
                                     placeHolderDiv.find('.modal').modal('hide');
@@ -318,20 +371,28 @@
                             <td>${categoryAddAjaxModel.CategoryDto.Category.Id}</td>
                             <td>${categoryAddAjaxModel.CategoryDto.Category.Name}</td>
                             <td>${categoryAddAjaxModel.CategoryDto.Category.Description}</td>
-                            <td>${categoryAddAjaxModel.CategoryDto.Category.IsActive}</td>
-                            <td>${categoryAddAjaxModel.CategoryDto.Category.IsDeleted}</td>
+                            <td>${convertFirstLetterToUpperCase(categoryAddAjaxModel.CategoryDto.Category.IsActive.toString())}</td>
+                            <td>${convertFirstLetterToUpperCase(categoryAddAjaxModel.CategoryDto.Category.IsDeleted.toString())}</td>
                             <td>${categoryAddAjaxModel.CategoryDto.Category.Note}</td>
-                            <td>${categoryAddAjaxModel.CategoryDto.Category.CreatedDate}</td>
+                            <td>${convertToShortDate(categoryAddAjaxModel.CategoryDto.Category.CreatedDate)}</td>
                             <td>${categoryAddAjaxModel.CategoryDto.Category.CreatedByName}</td>
-                            <td>${categoryAddAjaxModel.CategoryDto.Category.ModifiedDate}</td>
+                            <td>${convertToShortDate(categoryAddAjaxModel.CategoryDto.Category.ModifiedDate)}</td>
                             <td>${categoryAddAjaxModel.CategoryDto.Category.ModifiedByName}</td>
                                      </tr>
                                     `;
-                                    const newTableRowObject = $(newTableRow);
-                                    newTableRowObject.hide();
-                                    $('#categoriesTable').append(newTableRowObject);
+                                    const newTableRowObject = $(newTableRow); //created js object
+                                    newTableRowObject.hide(); //for effective comes
+                                    $('#categoriesTable').append(newTableRowObject); //added new row
                                     newTableRowObject.fadeIn(3500); //comes effective
                                     toastr.success(`${categoryAddAjaxModel.CategoryDto.Message}`, 'Başarılı İşlem !');
+                                }
+                                else {
+                                    let summaryText = "";
+                                    $('#validation-summary > ul > li').each(function () {
+                                        let text = $(this).text();
+                                        summaryText = '*${text}\n';
+                                    });
+                                    toastr.warning(summaryText);
                                 }
                             });
                         }
