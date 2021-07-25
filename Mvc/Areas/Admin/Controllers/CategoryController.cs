@@ -23,7 +23,7 @@ namespace Mvc.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var result = await _categoryService.GetAll();
+            var result = await _categoryService.GetAllByNonDeleted();
             if (result.ResultStatus == ResultStatus.Success)
             {
                 return View(result.Data);
@@ -63,7 +63,7 @@ namespace Mvc.Areas.Admin.Controllers
         }
         public async Task<JsonResult> GetAllCategories()
         {
-            var result = await _categoryService.GetAll();
+            var result = await _categoryService.GetAllByNonDeleted();
             var categories = JsonSerializer.Serialize(result.Data, new JsonSerializerOptions {
                 ReferenceHandler = ReferenceHandler.Preserve
             });
@@ -74,8 +74,22 @@ namespace Mvc.Areas.Admin.Controllers
         public async Task<JsonResult> Delete(int categoryId)
         {
             var result = await _categoryService.Delete(categoryId,"Atokun");
-            var ajaxResult = JsonSerializer.Serialize(result);
-            return Json(ajaxResult);
+            var deletedCategory = JsonSerializer.Serialize(result.Data);
+            return Json(deletedCategory);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Update(int categoryId)
+        {
+            var result = await _categoryService.GetCategoryUpdateDto(categoryId);
+            if (result.ResultStatus == ResultStatus.Success)
+            {
+                return PartialView("_CategoryUpdatePartial",result.Data);
+            }
+            else
+            {
+                return NotFound();
+            }
+            
         }
     }
 }
