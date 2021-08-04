@@ -1,21 +1,17 @@
 ﻿using DataAccess.Concrete.EntityFramework.Mappings;
 using Entities.Concretes;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DataAccess.Concrete.EntityFramework.Contexts
 {
-    public class ProgrammersBlogContext:DbContext
+    public class ProgrammersBlogContext:IdentityDbContext<User,Role,int,UserClaim,UserRole,UserLogin,RoleClaim,UserToken>
     {
         public DbSet<Article> Articles { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<User> Users { get; set; }
+        
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -29,6 +25,11 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
             modelBuilder.ApplyConfiguration(new CommentMap());
             modelBuilder.ApplyConfiguration(new RoleMap());
             modelBuilder.ApplyConfiguration(new UserMap());
+            modelBuilder.ApplyConfiguration(new RoleClaimMap());
+            modelBuilder.ApplyConfiguration(new UserRoleMap());
+            modelBuilder.ApplyConfiguration(new UserClaimMap());
+            modelBuilder.ApplyConfiguration(new UserLoginMap());
+            modelBuilder.ApplyConfiguration(new UserTokenMap());
         }
     }
 }

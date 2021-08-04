@@ -46,94 +46,94 @@ namespace DataAccess.Concrete.EntityFramework.Mappings
                 .HasForeignKey(a => a.UserId);
 
             builder.ToTable("Articles");
-            builder.HasData(new Article 
-            {
-                Id=1,
-                CategoryId=1,
-                Title="C# 9.0 ve .NET 5 Yenilikleri",
-                Content= "Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan" +
-                " mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının" +
-                " bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak " +
-                "karıştırdığı 1500'lerden beri endüstri standardı sahte metinler olarak kullanılmıştır." +
-                " Beşyüz yıl boyunca varlığını sürdürmekle kalmamış, aynı zamanda " +
-                "pek değişmeden " +
-                " da PageMaker" +
-                " gibi Lorem Ipsum sürümleri ile popüler olmuştur.",
-                Thumnail="Default.jpg",
-                SeoDescription= "C# 9.0 ve .NET 5 Yenilikleri",
-                SeoTags="C#, C# 9, .NET5, .NET Core",
-                SeaAuthor="Atakan Göçer",
-                Date=DateTime.Now,
-                IsActive = true,
-                IsDeleted = false,
-                CreatedByName = "InitialCreate",
-                CreatedDate = DateTime.Now,
-                ModifiedByName = "InitialCreate",
-                ModifiedDate = DateTime.Now,
-                Note = "C# .NET 5 Yenilikleri",
-                ViewsCount=100,
-                CommentCount=1,
-                UserId=1
-            },
-            new Article
-            {
-                Id = 2,
-                CategoryId = 2,
-                Title = "Java Yenilikleri",
-                Content = "Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan" +
-                " mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının" +
-                " bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak " +
-                "karıştırdığık kullanılmıştır." +
-                " Beşyüz yıl boyunca varlığını sürdürmekle kalmamış, aynı zamanda " +
-                "pek değişmeden elektronik dizgiye de sıçramıştır. 1960'larda Lorem Ipsum pasajları" +
-                " da içeren Letraset yapraklarının yayınlanması ile ve yakın zamanda Aldus PageMaker" +
-                " gibi Lorem Ipsum sürümleri içeren masaüstü yayıncılık yazılımları ile popüler olmuştur.",
-                Thumnail = "Default.jpg",
-                SeoDescription = "Java Yenilikleri",
-                SeoTags = "Java , Spring",
-                SeaAuthor = "Atakan Göçer",
-                Date = DateTime.Now,
-                IsActive = true,
-                IsDeleted = false,
-                CreatedByName = "InitialCreate",
-                CreatedDate = DateTime.Now,
-                ModifiedByName = "InitialCreate",
-                ModifiedDate = DateTime.Now,
-                Note = "Java Yenilikleri",
-                ViewsCount = 200,
-                CommentCount = 1,
-                UserId = 1
-            },
-            new Article
-            {
-                Id = 3,
-                CategoryId = 3,
-                Title = "C++ Yenilikleri",
-                Content = "Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan" +
-                " mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının" +
-                " bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak " +
-                "karıştırdığı 1500'lerden beri endüstri standardı sahte metinler olarak kullanılmıştır." +
-                " Beşyüz yıl boyunca varlığını sürdürmekle kalmamış, aynı zamanda " +
-                "pek değişmeden elektronik dizgiye de sıçramıştır. 1960'larda Lorem Ipsum pasajları" +
-                " da içeren Letraset yapraklarının yayınlanması ile ve yakın zamanda Aldus PageMaker" +
-                " gibi Lorem Ipsum sürümleri içeren masaüstü yayıncılık yazılımları ile popüler olmuştur.",
-                Thumnail = "Default.jpg",
-                SeoDescription = "C++ Yenilikleri",
-                SeoTags = "C++",
-                SeaAuthor = "Atakan Göçer",
-                Date = DateTime.Now,
-                IsActive = true,
-                IsDeleted = false,
-                CreatedByName = "InitialCreate",
-                CreatedDate = DateTime.Now,
-                ModifiedByName = "InitialCreate",
-                ModifiedDate = DateTime.Now,
-                Note = "C++ Yenilikleri",
-                ViewsCount = 120,
-                CommentCount = 1,
-                UserId = 1
-            }
-            );
+            //builder.HasData(new Article 
+            //{
+            //    Id=1,
+            //    CategoryId=1,
+            //    Title="C# 9.0 ve .NET 5 Yenilikleri",
+            //    Content= "Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan" +
+            //    " mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının" +
+            //    " bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak " +
+            //    "karıştırdığı 1500'lerden beri endüstri standardı sahte metinler olarak kullanılmıştır." +
+            //    " Beşyüz yıl boyunca varlığını sürdürmekle kalmamış, aynı zamanda " +
+            //    "pek değişmeden " +
+            //    " da PageMaker" +
+            //    " gibi Lorem Ipsum sürümleri ile popüler olmuştur.",
+            //    Thumnail="Default.jpg",
+            //    SeoDescription= "C# 9.0 ve .NET 5 Yenilikleri",
+            //    SeoTags="C#, C# 9, .NET5, .NET Core",
+            //    SeaAuthor="Atakan Göçer",
+            //    Date=DateTime.Now,
+            //    IsActive = true,
+            //    IsDeleted = false,
+            //    CreatedByName = "InitialCreate",
+            //    CreatedDate = DateTime.Now,
+            //    ModifiedByName = "InitialCreate",
+            //    ModifiedDate = DateTime.Now,
+            //    Note = "C# .NET 5 Yenilikleri",
+            //    ViewsCount=100,
+            //    CommentCount=1,
+            //    UserId=1
+            //},
+            //new Article
+            //{
+            //    Id = 2,
+            //    CategoryId = 2,
+            //    Title = "Java Yenilikleri",
+            //    Content = "Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan" +
+            //    " mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının" +
+            //    " bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak " +
+            //    "karıştırdığık kullanılmıştır." +
+            //    " Beşyüz yıl boyunca varlığını sürdürmekle kalmamış, aynı zamanda " +
+            //    "pek değişmeden elektronik dizgiye de sıçramıştır. 1960'larda Lorem Ipsum pasajları" +
+            //    " da içeren Letraset yapraklarının yayınlanması ile ve yakın zamanda Aldus PageMaker" +
+            //    " gibi Lorem Ipsum sürümleri içeren masaüstü yayıncılık yazılımları ile popüler olmuştur.",
+            //    Thumnail = "Default.jpg",
+            //    SeoDescription = "Java Yenilikleri",
+            //    SeoTags = "Java , Spring",
+            //    SeaAuthor = "Atakan Göçer",
+            //    Date = DateTime.Now,
+            //    IsActive = true,
+            //    IsDeleted = false,
+            //    CreatedByName = "InitialCreate",
+            //    CreatedDate = DateTime.Now,
+            //    ModifiedByName = "InitialCreate",
+            //    ModifiedDate = DateTime.Now,
+            //    Note = "Java Yenilikleri",
+            //    ViewsCount = 200,
+            //    CommentCount = 1,
+            //    UserId = 1
+            //},
+            //new Article
+            //{
+            //    Id = 3,
+            //    CategoryId = 3,
+            //    Title = "C++ Yenilikleri",
+            //    Content = "Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan" +
+            //    " mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının" +
+            //    " bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak " +
+            //    "karıştırdığı 1500'lerden beri endüstri standardı sahte metinler olarak kullanılmıştır." +
+            //    " Beşyüz yıl boyunca varlığını sürdürmekle kalmamış, aynı zamanda " +
+            //    "pek değişmeden elektronik dizgiye de sıçramıştır. 1960'larda Lorem Ipsum pasajları" +
+            //    " da içeren Letraset yapraklarının yayınlanması ile ve yakın zamanda Aldus PageMaker" +
+            //    " gibi Lorem Ipsum sürümleri içeren masaüstü yayıncılık yazılımları ile popüler olmuştur.",
+            //    Thumnail = "Default.jpg",
+            //    SeoDescription = "C++ Yenilikleri",
+            //    SeoTags = "C++",
+            //    SeaAuthor = "Atakan Göçer",
+            //    Date = DateTime.Now,
+            //    IsActive = true,
+            //    IsDeleted = false,
+            //    CreatedByName = "InitialCreate",
+            //    CreatedDate = DateTime.Now,
+            //    ModifiedByName = "InitialCreate",
+            //    ModifiedDate = DateTime.Now,
+            //    Note = "C++ Yenilikleri",
+            //    ViewsCount = 120,
+            //    CommentCount = 1,
+            //    UserId = 1
+            //}
+            //);
         }
     }
 }
