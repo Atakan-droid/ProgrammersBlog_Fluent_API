@@ -30,8 +30,26 @@ namespace Mvc
                 opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             });
+            services.AddSession();
             services.AddAutoMapper(typeof(CategoryProfile),typeof(ArticleProfile));
             services.LoadMyServices();
+            services.ConfigureApplicationCookie(options=> 
+            {
+                options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Admin/User/Login");
+                options.LogoutPath = new Microsoft.AspNetCore.Http.PathString("/Amin/User/Logout");
+                options.Cookie = new Microsoft.AspNetCore.Http.CookieBuilder
+                {
+                    Name="ProgrammersBlog",
+                    HttpOnly=true, //only server site 
+                    SameSite=Microsoft.AspNetCore.Http.SameSiteMode.Strict, //look strict only our site
+                    SecurePolicy=Microsoft.AspNetCore.Http.CookieSecurePolicy.SameAsRequest, //has to be ALWAYS
+                };
+                //user after logged in they don't need to login again at least 7 days
+                options.SlidingExpiration = true;
+                options.ExpireTimeSpan = System.TimeSpan.FromDays(7);
+                options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Admin/User/AccessDenied");
+                
+            });
             
         }
 
@@ -43,13 +61,13 @@ namespace Mvc
                 app.UseDeveloperExceptionPage();
                 app.UseStatusCodePages(); //page status
             }
-           
+            app.UseSession();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
