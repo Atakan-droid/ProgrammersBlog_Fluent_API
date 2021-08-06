@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Mvc.Areas.Admin.Controllers
@@ -39,9 +40,59 @@ namespace Mvc.Areas.Admin.Controllers
             }); ;
         }
         [HttpGet]
+        public async Task<JsonResult> GetAllUsers()
+        {
+            var users = await _userManager.Users.ToListAsync();
+
+            var userListDto=JsonSerializer.Serialize(new UserListDto
+            {
+                Users = users,
+                ResultStatus = Core.Utilities.Results.Complex_Types.ResultStatus.Success
+            },new JsonSerializerOptions{ 
+                ReferenceHandler=ReferenceHandler.Preserve
+            });
+            return Json(userListDto);
+        }
+        [HttpGet]
         public IActionResult Add()
         {
             return PartialView("_UserAddPartial");
+        }
+        public async Task<JsonResult> Delete(int userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                var deletedUser = JsonSerializer.Serialize(new UserDto
+                {
+                    ResultStatus = Core.Utilities.Results.Complex_Types.ResultStatus.Success,
+                    Message = $"{user.UserName} adlı kullanıcı silinmiştir",
+                    User = user
+                });
+                return Json(deletedUser);
+            }
+            else
+            {
+                string errorMessages = String.Empty;
+                foreach (var error in result.Errors)
+                {
+                    errorMessages=$"{error.Description}\n";
+                }
+                var deletedUserErrorModel = JsonSerializer.Serialize(new UserDto
+                {
+                    ResultStatus = Core.Utilities.Results.Complex_Types.ResultStatus.Error,
+                    Message = $"{user.UserName} silinirken bazı hatalar oluştu.\n{errorMessages}",
+                    User = user
+                });
+                return Json(deletedUserErrorModel);
+            }
+        }
+        public async Task<PartialViewResult> Update(int userId)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(u=>u.Id==userId);
+            var userUpdateDto = _mapper.Map<UserUpdateDto>(user);
+            return PartialView("_UserUpdatePartial", userUpdateDto);
         }
         [HttpPost]
         public async Task<IActionResult> Add(UserAddDto userAddDto)
@@ -103,6 +154,20 @@ namespace Mvc.Areas.Admin.Controllers
                 await userAddDto.PictureFile.CopyToAsync(stream);
             }
             return fileName;
+        }
+        public bool ImageDelete(string pictureName)
+        {
+            string wwwroot = _env.WebRootPath;
+            var fileToDelete = Path.Combine($"{wwwroot}/img/",pictureName);
+            if (System.IO.File.Exists(fileToDelete))
+            {
+                System.IO.File.Delete(fileToDelete);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
