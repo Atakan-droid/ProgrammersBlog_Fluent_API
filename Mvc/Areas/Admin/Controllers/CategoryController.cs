@@ -2,6 +2,7 @@
 using Core.Utilities.Extensions;
 using Core.Utilities.Results.Complex_Types;
 using Entities.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Mvc.Areas.Admin.Models;
 using System;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 namespace Mvc.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles ="Admin,Editor")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;

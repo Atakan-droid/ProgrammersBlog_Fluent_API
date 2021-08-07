@@ -156,12 +156,12 @@ namespace DataAccess.Migrations
                         {
                             Id = 1,
                             CreatedByName = "InitialCreate",
-                            CreatedDate = new DateTime(2021, 8, 4, 12, 38, 12, 847, DateTimeKind.Local).AddTicks(6785),
+                            CreatedDate = new DateTime(2021, 8, 7, 17, 46, 38, 444, DateTimeKind.Local).AddTicks(7287),
                             Description = "C# Programlama İle İlgili En Güncel Bilgiler",
                             IsActive = true,
                             IsDeleted = false,
                             ModifiedByName = "InitialCreate",
-                            ModifiedDate = new DateTime(2021, 8, 4, 12, 38, 12, 847, DateTimeKind.Local).AddTicks(8253),
+                            ModifiedDate = new DateTime(2021, 8, 7, 17, 46, 38, 444, DateTimeKind.Local).AddTicks(8406),
                             Name = "C#",
                             Note = "C# Blog Kategorisi"
                         },
@@ -169,12 +169,12 @@ namespace DataAccess.Migrations
                         {
                             Id = 2,
                             CreatedByName = "InitialCreate",
-                            CreatedDate = new DateTime(2021, 8, 4, 12, 38, 12, 847, DateTimeKind.Local).AddTicks(9687),
+                            CreatedDate = new DateTime(2021, 8, 7, 17, 46, 38, 445, DateTimeKind.Local).AddTicks(125),
                             Description = "Java Programlama İle İlgili En Güncel Bilgiler",
                             IsActive = true,
                             IsDeleted = false,
                             ModifiedByName = "InitialCreate",
-                            ModifiedDate = new DateTime(2021, 8, 4, 12, 38, 12, 847, DateTimeKind.Local).AddTicks(9689),
+                            ModifiedDate = new DateTime(2021, 8, 7, 17, 46, 38, 445, DateTimeKind.Local).AddTicks(127),
                             Name = "Java",
                             Note = "Java Blog Kategorisi"
                         },
@@ -182,12 +182,12 @@ namespace DataAccess.Migrations
                         {
                             Id = 3,
                             CreatedByName = "InitialCreate",
-                            CreatedDate = new DateTime(2021, 8, 4, 12, 38, 12, 847, DateTimeKind.Local).AddTicks(9696),
+                            CreatedDate = new DateTime(2021, 8, 7, 17, 46, 38, 445, DateTimeKind.Local).AddTicks(132),
                             Description = "C++ Programlama İle İlgili En Güncel Bilgiler",
                             IsActive = true,
                             IsDeleted = false,
                             ModifiedByName = "InitialCreate",
-                            ModifiedDate = new DateTime(2021, 8, 4, 12, 38, 12, 847, DateTimeKind.Local).AddTicks(9698),
+                            ModifiedDate = new DateTime(2021, 8, 7, 17, 46, 38, 445, DateTimeKind.Local).AddTicks(134),
                             Name = "C++",
                             Note = "C++ Blog Kategorisi"
                         });
@@ -268,6 +268,22 @@ namespace DataAccess.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "20c1cf54-c40c-41f3-aa04-9ee068c639e3",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "8302fa28-fd7b-4927-afda-85fd70f74096",
+                            Name = "Editor",
+                            NormalizedName = "EDITOR"
+                        });
                 });
 
             modelBuilder.Entity("Entities.Concretes.RoleClaim", b =>
@@ -363,6 +379,44 @@ namespace DataAccess.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "76ce1ec4-aae5-4c2c-a02b-4bca1381ccfc",
+                            Email = "adminuser@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMINUSER@GMAIL.COM",
+                            NormalizedUserName = "ADMINUSER",
+                            PasswordHash = "AQAAAAEAACcQAAAAEH6fp/HmE0O2b2CzEharFLSj99R+a3Z01p7aVbvnEDm8tWS1gI+x7ZZkeS9pb4iirA==",
+                            PhoneNumber = "+905555555555",
+                            PhoneNumberConfirmed = true,
+                            Picture = "defaultUser.png",
+                            SecurityStamp = "085f2d49-8332-4a5d-b1d5-3d726866bc64",
+                            TwoFactorEnabled = false,
+                            UserName = "adminuser"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "cc8fd42c-8f9b-4304-ab81-af973c44fb0b",
+                            Email = "editoruser@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "EDITORUSER@GMAIL.COM",
+                            NormalizedUserName = "EDITORUSER",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFB4mEvw2bIZhvPe9L5dDgnDgz47zm0/rGm2tAc/o7kmo8UQRz/t4f+uKznuQbTuxw==",
+                            PhoneNumber = "+905555555555",
+                            PhoneNumberConfirmed = true,
+                            Picture = "defaultUser.png",
+                            SecurityStamp = "e5320ce3-b330-4043-88b2-cd99db1d4e46",
+                            TwoFactorEnabled = false,
+                            UserName = "editornuser"
+                        });
                 });
 
             modelBuilder.Entity("Entities.Concretes.UserClaim", b =>
@@ -424,6 +478,18 @@ namespace DataAccess.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            RoleId = 2
+                        });
                 });
 
             modelBuilder.Entity("Entities.Concretes.UserToken", b =>
